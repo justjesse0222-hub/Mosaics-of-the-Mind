@@ -1,304 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Mosaics of the Mind</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mosaics of the Mind</title>
 
-  <style>
-    :root {
-      --background: #9b5f46;
-      --background-dark: #7d4638;
-      --arch-outer: #a95d36;
-      --arch-main: #d49a39;
-      --arch-inner: #efbe5a;
-      --teal: #4f8c83;
-      --teal-dark: #356b66;
-      --cream: #ffe3b7;
-      --brown: #5d3329;
-    }
+<style>
+:root {
+  --canvas: #b76c34;
+  --deep: #9e5128;
+  --brown: #74300f;
+  --gold: #d2b300;
+  --cream: #ead08a;
+  --teal: #0e604f;
+  --teal2: #177765;
+  --sun: #ffe45f;
+  --ink: #2b160d;
+}
 
-    * {
-      box-sizing: border-box;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    html,
-    body {
-      margin: 0;
-      width: 100%;
-      min-height: 100%;
-      font-family: Georgia, "Times New Roman", serif;
-      background: var(--background);
-      color: var(--cream);
-    }
+html,
+body {
+  margin: 0;
+  width: 100%;
+  min-height: 100%;
+  background: #7e7e79;
+  font-family: Georgia, "Times New Roman", serif;
+  overflow: hidden;
+}
 
-    body {
-      display: flex;
-      justify-content: center;
-      overflow: hidden;
-    }
+.app {
+  position: relative;
+  width: min(100vw, 430px);
+  min-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 88% 5%, rgba(14, 96, 79, 0.52) 0 18%, transparent 19%),
+    radial-gradient(circle at -10% 82%, rgba(116, 48, 15, 0.65) 0 18%, transparent 19%),
+    linear-gradient(180deg, var(--canvas), var(--deep));
+}
 
-    .app {
-      position: relative;
-      width: min(100vw, 430px);
-      min-height: 100vh;
-      overflow: hidden;
-      background:
-        radial-gradient(circle at 15% 20%, rgba(255, 215, 148, 0.1), transparent 26%),
-        radial-gradient(circle at 85% 10%, rgba(255, 231, 180, 0.09), transparent 24%),
-        linear-gradient(180deg, #a8664a 0%, #92553f 55%, #7b4436 100%);
-    }
+.app::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.28;
+  pointer-events: none;
+  background-image:
+    repeating-linear-gradient(13deg, rgba(255, 255, 255, 0.13) 0 1px, transparent 1px 6px),
+    repeating-linear-gradient(94deg, rgba(36, 18, 8, 0.17) 0 1px, transparent 1px 9px);
+  mix-blend-mode: soft-light;
+}
 
-    .grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.12;
-      background-image:
-        repeating-radial-gradient(circle at 0 0, rgba(255,255,255,.22) 0 1px, transparent 1px 4px),
-        repeating-linear-gradient(45deg, rgba(255,255,255,.06) 0 1px, transparent 1px 7px);
-      pointer-events: none;
-    }
+.top {
+  position: absolute;
+  top: 28px;
+  left: 22px;
+  right: 92px;
+  z-index: 5;
+}
 
-    .arch-wrap {
-      position: absolute;
-      left: 50%;
-      top: 56px;
-      transform: translateX(-50%);
-      width: 86%;
-      height: 78%;
-      border-radius: 999px 999px 28px 28px;
-      background: var(--arch-outer);
-      padding: 18px;
-      box-shadow:
-        inset 0 0 0 2px rgba(92, 47, 31, 0.18),
-        0 22px 45px rgba(62, 30, 24, 0.25);
-    }
+.brand {
+  margin: 0;
+  color: var(--brown);
+  font-size: clamp(2.1rem, 11vw, 3.5rem);
+  line-height: 0.78;
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  text-shadow: 0 2px 0 rgba(234, 208, 138, 0.18);
+}
 
-    .arch-main {
-      width: 100%;
-      height: 100%;
-      border-radius: 999px 999px 22px 22px;
-      background: var(--arch-main);
-      padding: 22px;
-      box-shadow: inset 0 0 22px rgba(255, 235, 168, 0.24);
-    }
+.brand span {
+  font-size: 0.42em;
+  letter-spacing: 0;
+}
 
-    .arch-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      border-radius: 999px 999px 16px 16px;
-      background: linear-gradient(180deg, #f0bb51 0%, #df993a 52%, #c67734 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 72px;
-      text-align: center;
-    }
+.slogan {
+  margin-top: 12px;
+  max-width: 245px;
+  font-size: clamp(1rem, 4.7vw, 1.4rem);
+  font-style: italic;
+  line-height: 1.05;
+  color: rgba(35, 20, 13, 0.9);
+}
 
-    h1 {
-      margin: 0;
-      font-size: clamp(2.2rem, 11vw, 3.4rem);
-      line-height: 0.92;
-      font-weight: 500;
-      color: #ffe9bd;
-      text-shadow:
-        0 0 9px rgba(255, 239, 187, 0.9),
-        0 3px 0 rgba(103, 52, 37, 0.18);
-      letter-spacing: 0.03em;
-    }
+#toggle {
+  display: none;
+}
 
-    .subtitle {
-      margin-top: 8px;
-      font-family: Arial, sans-serif;
-      font-size: 0.75rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(93, 51, 41, 0.62);
-    }
+.tinker {
+  position: absolute;
+  top: 40px;
+  right: 22px;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  z-index: 8;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(circle at 35% 28%, #fff5a8 0 14%, transparent 15%),
+    var(--sun);
+  color: var(--brown);
+  font-size: 2rem;
+  box-shadow:
+    0 0 16px rgba(255, 228, 95, 0.9),
+    0 0 34px rgba(255, 228, 95, 0.42);
+  animation: heart 1.45s ease-in-out infinite;
+}
 
-    .unfold {
-      margin-top: 64px;
-      width: 148px;
-      aspect-ratio: 1;
-      border: none;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 32% 24%, rgba(255, 246, 203, 0.35), transparent 22%),
-        linear-gradient(145deg, var(--teal), var(--teal-dark));
-      color: #fff1cf;
-      font-size: 1.35rem;
-      font-family: Georgia, "Times New Roman", serif;
-      letter-spacing: 0.04em;
-      box-shadow:
-        0 18px 28px rgba(55, 38, 30, 0.28),
-        inset 0 -8px 14px rgba(32, 71, 68, 0.38);
-      cursor: pointer;
-    }
+.menu {
+  display: none;
+  position: absolute;
+  top: 112px;
+  right: 18px;
+  width: 194px;
+  padding: 12px;
+  border-radius: 20px;
+  background: rgba(54, 26, 14, 0.86);
+  box-shadow: 0 14px 30px rgba(41, 18, 8, 0.3);
+  z-index: 9;
+}
 
-    .home-note {
-      position: absolute;
-      bottom: 112px;
-      width: 72%;
-      margin: 0;
-      font-family: Arial, sans-serif;
-      font-size: 0.78rem;
-      color: rgba(255, 237, 204, 0.72);
-      line-height: 1.5;
-    }
+.menu button {
+  width: 100%;
+  margin: 5px 0;
+  border: 1px solid rgba(255, 232, 145, 0.5);
+  border-radius: 14px;
+  padding: 11px 10px;
+  color: #ffe9b8;
+  background: rgba(210, 179, 0, 0.18);
+  font-size: 0.88rem;
+}
 
-    .tinker-area {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 12px;
-      z-index: 5;
-    }
+#toggle:checked ~ .menu {
+  display: block;
+}
 
-    .tinker-menu {
-      display: none;
-      width: min(78%, 310px);
-      padding: 12px;
-      border-radius: 24px;
-      background: rgba(84, 43, 35, 0.72);
-      backdrop-filter: blur(10px);
-      box-shadow: 0 16px 30px rgba(47, 25, 21, 0.26);
-    }
+.arch-space {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -10px;
+  height: 66vh;
+  z-index: 3;
+}
 
-    .tinker-menu.open {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      animation: lift 180ms ease-out;
-    }
+.arch {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  transform: translateX(-50%);
+  width: 74%;
+  height: 100%;
+  border-radius: 999px 999px 0 0;
+  border: 15px solid var(--brown);
+  border-bottom: 0;
+  filter: drop-shadow(0 0 13px rgba(255, 228, 95, 0.28));
+  animation: glow 3.5s ease-in-out infinite;
+}
 
-    .menu-option {
-      border: 1px solid rgba(255, 224, 170, 0.38);
-      border-radius: 18px;
-      padding: 12px 8px;
-      color: #ffe6b7;
-      background: rgba(210, 139, 63, 0.42);
-      font-family: Arial, sans-serif;
-      font-size: 0.86rem;
-      cursor: pointer;
-    }
+.arch::before {
+  content: "";
+  position: absolute;
+  inset: 15px;
+  border-radius: 999px 999px 0 0;
+  border: 31px solid var(--gold);
+  border-bottom: 0;
+}
 
-    .tinker {
-      width: 84px;
-      aspect-ratio: 1;
-      border: none;
-      border-radius: 50%;
-      background:
-        radial-gradient(circle at 30% 25%, rgba(255, 245, 194, 0.72), transparent 18%),
-        radial-gradient(circle at 54% 62%, #d69a44, #9b5b38 72%);
-      color: #fff2c9;
-      font-family: Arial, sans-serif;
-      font-size: 0.84rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      box-shadow:
-        0 0 22px rgba(239, 190, 90, 0.7),
-        0 12px 25px rgba(43, 22, 18, 0.35);
-      cursor: pointer;
-    }
+.arch::after {
+  content: "";
+  position: absolute;
+  inset: 60px;
+  border-radius: 999px 999px 0 0;
+  border: 22px solid var(--teal);
+  border-bottom: 0;
+  box-shadow: 0 0 0 16px var(--cream);
+}
 
-    .spark {
-      position: absolute;
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: rgba(255, 225, 165, 0.55);
-      box-shadow: 0 0 12px rgba(255, 225, 165, 0.72);
-    }
+.horizon {
+  position: absolute;
+  left: 50%;
+  top: 26px;
+  transform: translateX(-50%) rotate(-4deg);
+  z-index: 4;
+  color: var(--brown);
+  font-size: clamp(1.18rem, 6vw, 1.85rem);
+  font-style: italic;
+  white-space: nowrap;
+}
 
-    .spark.one {
-      top: 13%;
-      left: 12%;
-    }
+.unfold-zone {
+  position: absolute;
+  left: 50%;
+  top: 52%;
+  transform: translate(-50%, -50%);
+  width: 190px;
+  height: 190px;
+  display: grid;
+  place-items: center;
+  z-index: 6;
+}
 
-    .spark.two {
-      top: 28%;
-      right: 10%;
-      width: 5px;
-      height: 5px;
-    }
+.ring {
+  position: absolute;
+  border: 3px solid var(--teal2);
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-radius: 50%;
+  opacity: 0.72;
+  transform: rotate(-8deg);
+  animation: ring 3.2s ease-in-out infinite;
+}
 
-    .spark.three {
-      bottom: 18%;
-      left: 20%;
-      width: 6px;
-      height: 6px;
-    }
+.r1 {
+  width: 162px;
+  height: 104px;
+}
 
-    @keyframes lift {
-      from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.96);
-      }
+.r2 {
+  width: 198px;
+  height: 136px;
+  animation-delay: 0.35s;
+  opacity: 0.55;
+}
 
-      to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-      }
-    }
-  </style>
+.r3 {
+  width: 128px;
+  height: 82px;
+  animation-delay: 0.7s;
+  opacity: 0.84;
+}
+
+.unfold {
+  position: relative;
+  width: 128px;
+  height: 128px;
+  border: 0;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 33% 25%, rgba(255, 255, 255, 0.11), transparent 22%),
+    var(--teal);
+  color: #c99b86;
+  font-size: 1.85rem;
+  font-family: Georgia, "Times New Roman", serif;
+  font-style: italic;
+  box-shadow:
+    0 14px 28px rgba(42, 19, 8, 0.28),
+    inset 0 0 20px rgba(255, 255, 255, 0.07);
+  animation: breathe 3.2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.055);
+    box-shadow:
+      0 18px 34px rgba(42, 19, 8, 0.3),
+      0 0 26px rgba(14, 96, 79, 0.34);
+  }
+}
+
+@keyframes ring {
+  0%,
+  100% {
+    transform: rotate(-8deg) scale(0.94);
+    opacity: 0.46;
+  }
+
+  50% {
+    transform: rotate(-8deg) scale(1.08);
+    opacity: 0.9;
+  }
+}
+
+@keyframes heart {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  18% {
+    transform: scale(1.12);
+  }
+
+  30% {
+    transform: scale(0.98);
+  }
+
+  44% {
+    transform: scale(1.08);
+  }
+
+  62% {
+    transform: scale(1);
+  }
+}
+
+@keyframes glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 10px rgba(255, 228, 95, 0.24));
+  }
+
+  50% {
+    filter: drop-shadow(0 0 22px rgba(255, 228, 95, 0.48));
+  }
+}
+</style>
 </head>
 
 <body>
-  <main class="app" aria-label="Mosaics of the Mind home screen">
-    <div class="grain"></div>
+<main class="app">
+  <input id="toggle" type="checkbox" />
 
-    <span class="spark one"></span>
-    <span class="spark two"></span>
-    <span class="spark three"></span>
+  <section class="top">
+    <h1 class="brand">
+      Mosaics<br>
+      <span>of the</span> Mind
+    </h1>
 
-    <section class="arch-wrap">
-      <div class="arch-main">
-        <div class="arch-inner">
-          <h1>My<br />Horizon</h1>
-          <div class="subtitle">Mosaics of the Mind</div>
+    <div class="slogan">
+      a place to create your peace of mind
+    </div>
+  </section>
 
-          <button class="unfold" type="button">
-            Unfold
-          </button>
+  <label class="tinker" for="toggle">
+    ⚙
+  </label>
 
-          <p class="home-note">
-            A soft doorway for thoughts, tasks, notes, and the little life-tiles that need somewhere to land.
-          </p>
-        </div>
-      </div>
-    </section>
+  <div class="menu">
+    <button>Customization</button>
+    <button>Settings</button>
+  </div>
 
-    <section class="tinker-area" aria-label="Tinker menu area">
-      <div class="tinker-menu" id="tinkerMenu">
-        <button class="menu-option" type="button">Customization</button>
-        <button class="menu-option" type="button">Settings</button>
-      </div>
+  <section class="arch-space">
+    <div class="arch"></div>
+    <div class="horizon">My Horizon</div>
+  </section>
 
-      <button
-        class="tinker"
-        id="tinkerButton"
-        type="button"
-        aria-expanded="false"
-        aria-controls="tinkerMenu"
-      >
-        Tinker
-      </button>
-    </section>
-  </main>
-
-  <script>
-    const tinkerButton = document.getElementById("tinkerButton");
-    const tinkerMenu = document.getElementById("tinkerMenu");
-
-    tinkerButton.addEventListener("click", () => {
-      const isOpen = tinkerMenu.classList.toggle("open");
-      tinkerButton.setAttribute("aria-expanded", String(isOpen));
-    });
-  </script>
+  <section class="unfold-zone">
+    <div class="ring r2"></div>
+    <div class="ring r1"></div>
+    <div class="ring r3"></div>
+    <button class="unfold">Unfold</button>
+  </section>
+</main>
 </body>
 </html>
